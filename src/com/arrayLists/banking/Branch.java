@@ -24,6 +24,17 @@ class Branch {
          }
     }
 
+    public boolean addCustomerTransaction(String customerName, double transaction) {
+        Customer customer = findCustomer(customerName);
+
+        if(customer == null) {
+            return false;
+        } else {
+            customer.addTransaction(transaction);
+            return true;
+        }
+    }
+
     private void removeCustomer(Customer customer) {
         customers.remove(customer);
     }

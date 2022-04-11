@@ -13,11 +13,36 @@ public class Bank {
         this.branches = new ArrayList<>();
     }
 
+    public void addBranch(String branchName) {
+        Branch newBranch = findBranch(branchName);
+        System.out.println();
+
+        if(newBranch == null) {
+            branches.add(new Branch(branchName));
+            System.out.println(branchName + " branch added successfully");
+        } else {
+            System.out.println("Branch " + branchName + " already exists in this bank. You can't duplicate branches");
+        }
+    }
+
+    public void removeBranch(String branchName) {
+        Branch branchToRemove = findBranch(branchName);
+        System.out.println();
+
+        if(branchToRemove == null) {
+            System.out.println(branchName + " does not exist in this bank yet, therefore could not be removed");
+        } else {
+            branches.remove(branchToRemove);
+            System.out.println("Branch " + branchName + " has been successfully removed from the bank " + name);
+        }
+    }
+
     public void addCustomer(String branchName, String customerName, double initialTransaction) {
         Branch branchToAddCustomerTo = findBranch(branchName);
+        System.out.println();
 
         if(branchToAddCustomerTo == null) {
-            System.out.println("No " + branchName + " existing. You need to add this branch first.");
+            System.out.println("No " + branchName + " branch existing. You need to add this branch first.");
             return;
         }
 
@@ -29,8 +54,25 @@ public class Bank {
         }
     }
 
+    public void addCustomerTransaction(String branchName, String customerName, double transaction) {
+        Branch branch = findBranch(branchName);
+        System.out.println();
+
+        if(branch == null) {
+            System.out.println("There is no branch " + branchName);
+            return;
+        }
+
+        if(branch.addCustomerTransaction(customerName, transaction)) {
+            System.out.println("Transaction of " + transaction + " successfully added to the clients account");
+        } else {
+            System.out.println("There is no customer " + customerName + " in the branch " + branchName + " of this bank");
+        }
+    }
+
     public void removeCustomer(String branchName, String customerName) {
         Branch branchToRemoveCustomerFrom = findBranch(branchName);
+        System.out.println();
 
         if(branchToRemoveCustomerFrom == null) {
             System.out.println("No " + branchName + " existing. You can't remove non-existent branches");
@@ -45,8 +87,9 @@ public class Bank {
     }
 
     public void listAllCustomers(boolean withTransactions) {
+        System.out.println();
         if(branches.size() == 0) {
-            System.out.println("There are no branches nor customers added yet");
+            System.out.println("There are no branches nor customers added yet to the bank " + name);
             return;
         }
 
@@ -56,7 +99,12 @@ public class Bank {
 
         for(int i = 0; i < branches.size(); i++) {
             currentlyPrintedBranch = branches.get(i);
-            System.out.println("\tBranch " + currentlyPrintedBranch.getName() + ":");
+            System.out.println("\tBranch: " + currentlyPrintedBranch.getName());
+
+            if(currentlyPrintedBranch.getCustomers().size() == 0) {
+                System.out.println("\t\tNo customers added to this branch yet");
+                continue;
+            }
 
             for(int j = 0; j < currentlyPrintedBranch.getCustomers().size(); j++) {
                 currentlyPrintedCustomer = currentlyPrintedBranch.getCustomers().get(j);
@@ -66,9 +114,16 @@ public class Bank {
                     ArrayList<Double> currentlyPrintedTransactions = currentlyPrintedCustomer.getTransactions();
                     System.out.print("\t\t\t");
 
+                    if(currentlyPrintedTransactions.size() == 0) {
+                        System.out.println("No transactions added for this customer yet");
+                        continue;
+                    }
+
                     for(int k = 0; k < currentlyPrintedTransactions.size(); k++) {
                         System.out.print(currentlyPrintedTransactions.get(k) + "  ");
                     }
+
+                    System.out.println();
                 }
             }
 
@@ -77,6 +132,7 @@ public class Bank {
     }
 
     public void listSpecificBranchCustomers(String branchName, boolean withTransactions) {
+        System.out.println();
         System.out.println("Branch " + branchName);
         Branch branchToPrint = findBranch(branchName);
 
