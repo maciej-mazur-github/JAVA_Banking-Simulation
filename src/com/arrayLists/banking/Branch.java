@@ -24,6 +24,21 @@ class Branch {
          }
     }
 
+    private void removeCustomer(Customer customer) {
+        customers.remove(customer);
+    }
+
+    public boolean removeCustomer(String name) {
+        Customer customerToRemove = findCustomer(name);
+
+        if(customerToRemove != null) {
+            removeCustomer(customerToRemove);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private Customer findCustomer(String name) {
         for (int i = 0; i < customers.size(); i++) {
             if (customers.get(i).getName().equals(name)) {
