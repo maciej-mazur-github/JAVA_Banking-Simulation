@@ -1,5 +1,7 @@
 package com.arrayLists.banking;
 
+import java.util.ArrayList;
+
 class Customer {
     private String name;
     private ArrayList<Double> transactions;
