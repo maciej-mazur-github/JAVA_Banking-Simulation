@@ -48,4 +48,12 @@ class Branch {
 
         return null;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public ArrayList<Customer> getCustomers() {
+        return customers;
+    }
 }
